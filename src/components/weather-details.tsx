@@ -1,5 +1,5 @@
-import { AirData, WeatherData } from "../types/location";
-import { formatTime } from "../utils/formatTime";
+import { AirData, WeatherData } from "../app/types/location";
+import { formatTime } from "../app/utils/formatTime";
 
 type WeatherDetailsProps = {
   weatherData: WeatherData;

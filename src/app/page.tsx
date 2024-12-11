@@ -1,5 +1,5 @@
-import Location from "./(components)/location";
-import { ModeToggle } from "./(components)/ui/dark-mode-toggle";
+import Location from "@/components/location";
+import { ModeToggle } from "@/components/ui/dark-mode-toggle";
 
 export default function Home() {
   return (

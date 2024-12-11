@@ -1,8 +1,8 @@
 "use client";
 
+import { getWeatherAndAirData } from "@/app/api/weather";
+import { AirData, LocationData, WeatherData } from "@/app/types/location";
 import { useEffect, useState } from "react";
-import { AirData, LocationData, WeatherData } from "../types/location";
-import { getWeatherAndAirData } from "../api/weather";
 import { WeatherDetails } from "./weather-details";
 
 export default function Location() {
