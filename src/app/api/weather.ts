@@ -1,6 +1,10 @@
-export async function fetchWeather(latitude: number, longitude: number) {
-  const API_KEY = "cf3d446e708730b22a30e7e49053883c";
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`;
+export async function fetchApi(
+  latitude: number,
+  longitude: number,
+  fetchType: string
+) {
+  const API_KEY = "d91e40b3ac363f5aded3207f4ee0c2c1";
+  const url = `https://api.openweathermap.org/data/2.5/${fetchType}?lat=${latitude}&lon=${longitude}&units=metric&lang=fr&appid=${API_KEY}`;
 
   const response = await fetch(url);
 
