@@ -16,17 +16,18 @@ export const WeatherDetails: React.FC<WeatherDetailsProps> = ({
 
   return (
     <div>
+      <img src={iconUrl} alt="weather icon" className="mx-auto" />
       <h1 className="text-4xl font-bold">
         {weatherData.name}, {weatherData.sys.country}
       </h1>
       <p>Température : {Math.round(weatherData.main.temp)}°C</p>
+      <p>Ressenti : {Math.round(weatherData.main.feels_like)}°C</p>
       <p>Humidité : {weatherData.main.humidity}%</p>
       <p>{weatherData.weather[0].description}</p>
       <p>Vent : {weatherData.wind.speed} m/s</p>
       <p>Lever du soleil : {sunrise}</p>
       <p>Coucher du soleil : {sunset}</p>
       <p>Qualité de l&apos;air : {airData.list[0].main.aqi}</p>
-      <img src={iconUrl} alt="weather icon" />
     </div>
   );
 };
