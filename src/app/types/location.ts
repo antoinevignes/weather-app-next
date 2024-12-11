@@ -31,3 +31,8 @@ export type AirData = {
     };
   }[];
 };
+
+export type WeatherDetailsProps = {
+  weatherData: WeatherData;
+  airData: AirData;
+};
