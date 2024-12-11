@@ -1,4 +1,4 @@
-export async function fetchApi(
+async function fetchApi(
   latitude: number,
   longitude: number,
   fetchType: string
@@ -18,3 +18,12 @@ export async function fetchApi(
 
   return data;
 }
+
+export const getWeatherAndAirData = async (
+  latitude: number,
+  longitude: number
+) => {
+  const weatherData = await fetchApi(latitude, longitude, "weather");
+  const airData = await fetchApi(latitude, longitude, "air_pollution");
+  return { weatherData, airData };
+};
