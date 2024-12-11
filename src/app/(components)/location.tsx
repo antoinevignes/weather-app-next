@@ -35,5 +35,5 @@ export default function Location() {
     getWeather();
   }, [location]);
 
-  return <>{data ? <div></div> : <p>Chargement...</p>}</>;
+  return <>{data ? <div>{data.name}</div> : <p>Chargement...</p>}</>;
 }
