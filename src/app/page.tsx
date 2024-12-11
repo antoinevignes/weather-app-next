@@ -1,7 +1,5 @@
-import Geolocation from "./(geolocation)/page";
-
-console.log("Hello");
+import Location from "./(components)/location";
 
 export default function Home() {
-  return <Geolocation />;
+  return <Location />;
 }
