@@ -1,18 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  Cloud,
-  Droplets,
-  Gauge,
-  Leaf,
-  Sun,
-  Sunrise,
-  Sunset,
-  Wind,
-} from "lucide-react";
-import { getWeatherAndAirData } from "@/app/api/fetch-open-meteo";
-import { LocationData, WeatherData } from "@/app/types/location";
+import { Droplets, Gauge, Leaf, Sunrise, Sunset, Wind } from "lucide-react";
+import { AirData, LocationData, WeatherData } from "@/app/types/location";
+import { getWeatherIcon } from "@/lib/getWeatherIcon";
+import { getWeather } from "@/app/api/fetch-open-meteo";
+import { getAirData } from "@/app/api/fetch-air-quality";
+import { getAirQuality } from "@/lib/getAirQuality";
 
 export default function Location() {
   const [location, setLocation] = useState<LocationData>({
@@ -20,6 +14,7 @@ export default function Location() {
     longitude: null,
   });
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [airData, setAirData] = useState<AirData>();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -42,11 +37,16 @@ export default function Location() {
     const fetchData = async () => {
       if (location.latitude !== null && location.longitude !== null)
         try {
-          const data = await getWeatherAndAirData(
+          const weatherData = await getWeather(
             location.latitude,
             location.longitude
           );
-          setWeatherData(data);
+          setWeatherData(weatherData);
+          const airData = await getAirData(
+            location.latitude,
+            location.longitude
+          );
+          setAirData(airData);
         } catch (err) {
           console.error("Erreur API :", err);
           setError("Erreur lors de la récupération des données.");
@@ -55,36 +55,37 @@ export default function Location() {
     fetchData();
   }, [location]);
 
-  useEffect(() => {
-    if (weatherData !== null) {
-      console.log(weatherData.daily);
-    }
-  }, [weatherData]);
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-400 to-blue-600 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl p-6 max-w-lg w-full">
-        <h1 className="text-3xl font-bold text-center mb-4"></h1>
+        <h1 className="text-3xl font-bold text-center mb-4">Toulouse</h1>
 
         <div className="flex items-center justify-center mb-6">
-          <Sun className="w-16 h-16 text-yellow-400 mr-4" />
+          {getWeatherIcon(
+            weatherData?.current.weatherCode ?? 0,
+            "w-16 h-16 mr-4"
+          )}
           <span className="text-5xl font-bold">
             {Math.round(weatherData?.current.temperature2m ?? 0)}°C
           </span>
         </div>
 
-        <p className="text-center text-xl mb-6">couvert</p>
+        <p className="text-center text-xl mb-6">
+          Ressenti : {Math.round(weatherData?.current.apparentTemperature ?? 0)}
+          °C
+        </p>
 
         <div className="grid grid-cols-4 gap-4 mb-6">
           {weatherData?.daily.time.map((day: string, index: number) => {
             const formattedDate = new Date(day).toLocaleDateString("fr-FR", {
               weekday: "short",
             });
+            const weatherCode = weatherData.daily.weatherCode[index];
 
             return (
               <div key={day} className="text-center">
                 <p className="font-semibold">{formattedDate}</p>
-                <Cloud className="w-8 h-8 mx-auto my-2 text-gray-400" />
+                {getWeatherIcon(weatherCode, "w-8 h-8 mx-auto my-2")}
                 <p>{Math.round(weatherData.daily.temperature2mMax[index])}°C</p>
               </div>
             );
@@ -117,7 +118,10 @@ export default function Location() {
             </div>
             <div className="flex items-center">
               <Leaf className="w-5 h-5 mr-2 text-green-500" />
-              <span>Qualité de l&apos;air: Bonne</span>
+              <span>
+                Qualité de l&apos;air:{" "}
+                {getAirQuality(airData?.current.europeanAqi ?? 0)}
+              </span>
             </div>
           </div>
         </div>

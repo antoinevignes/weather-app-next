@@ -1,9 +1,6 @@
 import { fetchWeatherApi } from "openmeteo";
 
-export const getWeatherAndAirData = async (
-  latitude: number,
-  longitude: number
-) => {
+export const getWeather = async (latitude: number, longitude: number) => {
   const params = {
     latitude: latitude,
     longitude: longitude,
@@ -11,10 +8,11 @@ export const getWeatherAndAirData = async (
       "temperature_2m",
       "relative_humidity_2m",
       "apparent_temperature",
+      "weather_code",
       "surface_pressure",
       "wind_speed_10m",
     ],
-    daily: "temperature_2m_max",
+    daily: ["weather_code", "temperature_2m_max"],
     timezone: "Europe/London",
     forecast_days: 4,
   };
@@ -45,8 +43,9 @@ export const getWeatherAndAirData = async (
       temperature2m: current.variables(0)!.value(),
       relativeHumidity2m: current.variables(1)!.value(),
       apparentTemperature: current.variables(2)!.value(),
-      surfacePressure: current.variables(3)!.value(),
-      windSpeed10m: current.variables(4)!.value(),
+      weatherCode: current.variables(3)!.value(),
+      surfacePressure: current.variables(4)!.value(),
+      windSpeed10m: current.variables(5)!.value(),
     },
     daily: {
       time: range(
@@ -54,20 +53,21 @@ export const getWeatherAndAirData = async (
         Number(daily.timeEnd()),
         daily.interval()
       ).map((t) => new Date((t + utcOffsetSeconds) * 1000)),
-      temperature2mMax: daily.variables(0)!.valuesArray()!,
+      weatherCode: daily.variables(0)!.valuesArray()!,
+      temperature2mMax: daily.variables(1)!.valuesArray()!,
     },
   };
 
   // `weatherData` now contains a simple structure with arrays for datetime and weather data
-  for (let i = 0; i < weatherData.daily.time.length; i++) {
-    console.log(
-      weatherData.daily.time[i].toISOString(),
-      weatherData.daily.temperature2mMax[i]
-    );
-  }
+  // for (let i = 0; i < weatherData.daily.time.length; i++) {
+  //   console.log(
+  //     weatherData.daily.time[i].toISOString(),
+  //     weatherData.daily.weatherCode[i],
+  //     weatherData.daily.temperature2mMax[i]
+  //   );
+  // }
 
   console.log(weatherData);
-  console.log(weatherData.daily);
 
   return weatherData;
 };

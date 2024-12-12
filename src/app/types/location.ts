@@ -14,9 +14,17 @@ export type WeatherData = {
     showers: number;
     windSpeed10m: number;
     surfacePressure: number;
+    weatherCode: number;
   };
   daily: {
     time: Array;
     temperature2mMax: Float32Array;
+    weatherCode: number[];
+  };
+};
+
+export type AirData = {
+  current: {
+    europeanAqi: number;
   };
 };
