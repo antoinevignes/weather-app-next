@@ -9,10 +9,14 @@ export type WeatherData = {
     temperature2m: number;
     relativeHumidity2m: number;
     apparentTemperature: number;
-    isDay: number;
     precipitation: number;
     rain: number;
     showers: number;
-    windGusts10m: number;
+    windSpeed10m: number;
+    surfacePressure: number;
+  };
+  daily: {
+    time: Array;
+    temperature2mMax: Float32Array;
   };
 };
