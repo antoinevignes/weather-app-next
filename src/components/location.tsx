@@ -1,9 +1,18 @@
 "use client";
 
-import { getWeatherAndAirData } from "@/app/api/weather";
-import { AirData, LocationData, WeatherData } from "@/app/types/location";
 import { useEffect, useState } from "react";
-import { BentoDisplay } from "./bento-display";
+import {
+  Cloud,
+  Droplets,
+  Gauge,
+  Leaf,
+  Sun,
+  Sunrise,
+  Sunset,
+  Wind,
+} from "lucide-react";
+import { getWeatherAndAirData } from "@/app/api/fetch-open-meteo";
+import { LocationData, WeatherData } from "@/app/types/location";
 
 export default function Location() {
   const [location, setLocation] = useState<LocationData>({
@@ -11,7 +20,6 @@ export default function Location() {
     longitude: null,
   });
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  const [airData, setAirData] = useState<AirData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -32,31 +40,86 @@ export default function Location() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (location.latitude !== null && location.longitude !== null) {
+      if (location.latitude !== null && location.longitude !== null)
         try {
-          const { weatherData, airData } = await getWeatherAndAirData(
+          const data = await getWeatherAndAirData(
             location.latitude,
             location.longitude
           );
-          setWeatherData(weatherData);
-          setAirData(airData);
+          setWeatherData(data);
         } catch (err) {
+          console.error("Erreur API :", err);
           setError("Erreur lors de la récupération des données.");
         }
-      }
     };
-
     fetchData();
-  }, [location]);
+  }, [location.latitude, location.longitude]);
 
   return (
-    <div className="h-screen flex justify-center items-center text-center">
-      {error && <p>{error}</p>}
-      {weatherData && airData ? (
-        <BentoDisplay weatherData={weatherData} airData={airData} />
-      ) : (
-        <p>Chargement de la météo...</p>
-      )}
+    <div className="min-h-screen bg-gradient-to-b from-blue-400 to-blue-600 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg shadow-xl p-6 max-w-lg w-full">
+        <h1 className="text-3xl font-bold text-center mb-4"></h1>
+
+        <div className="flex items-center justify-center mb-6">
+          <Sun className="w-16 h-16 text-yellow-400 mr-4" />
+          <span className="text-5xl font-bold">
+            {Math.round(weatherData?.current.temperature2m)}°C
+          </span>
+        </div>
+
+        <p className="text-center text-xl mb-6">couvert</p>
+
+        <div className="grid grid-cols-4 gap-4 mb-6">
+          {["Lun", "Mar", "Mer", "Jeu"].map((day, index) => (
+            <div key={day} className="text-center">
+              <p className="font-semibold">{day}</p>
+              <Cloud className="w-8 h-8 mx-auto my-2 text-gray-400" />
+              <p>{20 + index}°C</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-between text-sm">
+          <div className="flex items-center">
+            <Droplets className="w-4 h-4 mr-1" />
+            <span>Humidité: %</span>
+          </div>
+          <div className="flex items-center">
+            <Wind className="w-4 h-4 mr-1" />
+            <span>Vent: km/h</span>
+          </div>
+        </div>
+        <div className="mt-4 pt-4 border-t border-gray-200">
+          <h2 className="text-lg font-semibold mb-2">
+            Informations supplémentaires
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center">
+              <Gauge className="w-5 h-5 mr-2 text-blue-500" />
+              <span>Pression: hPa</span>
+            </div>
+            <div className="flex items-center">
+              <Leaf className="w-5 h-5 mr-2 text-green-500" />
+              <span>Qualité de l'air: Bonne</span>
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 pt-4 border-t border-gray-200">
+          <h2 className="text-lg font-semibold mb-2">
+            Lever et coucher du soleil
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center">
+              <Sunrise className="w-5 h-5 mr-2 text-orange-500" />
+              <span>Lever: 06:45</span>
+            </div>
+            <div className="flex items-center">
+              <Sunset className="w-5 h-5 mr-2 text-red-500" />
+              <span>Coucher: 20:30</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

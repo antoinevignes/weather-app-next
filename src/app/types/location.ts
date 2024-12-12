@@ -4,35 +4,15 @@ export type LocationData = {
 };
 
 export type WeatherData = {
-  name: string;
-  main: {
-    temp: number;
-    feels_like: number;
-    humidity: number;
+  current: {
+    time: Date;
+    temperature2m: number;
+    relativeHumidity2m: number;
+    apparentTemperature: number;
+    isDay: number;
+    precipitation: number;
+    rain: number;
+    showers: number;
+    windGusts10m: number;
   };
-  weather: {
-    description: string;
-    icon: string;
-  }[];
-  wind: {
-    speed: number;
-  };
-  sys: {
-    country: string;
-    sunrise: number;
-    sunset: number;
-  };
-};
-
-export type AirData = {
-  list: {
-    main: {
-      aqi: number;
-    };
-  }[];
-};
-
-export type WeatherDetailsProps = {
-  weatherData: WeatherData;
-  airData: AirData;
 };
