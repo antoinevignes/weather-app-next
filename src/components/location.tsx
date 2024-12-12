@@ -3,7 +3,7 @@
 import { getWeatherAndAirData } from "@/app/api/weather";
 import { AirData, LocationData, WeatherData } from "@/app/types/location";
 import { useEffect, useState } from "react";
-import { WeatherDetails } from "./weather-details";
+import { BentoDisplay } from "./bento-display";
 
 export default function Location() {
   const [location, setLocation] = useState<LocationData>({
@@ -53,7 +53,7 @@ export default function Location() {
     <div className="h-screen flex justify-center items-center text-center">
       {error && <p>{error}</p>}
       {weatherData && airData ? (
-        <WeatherDetails weatherData={weatherData} airData={airData} />
+        <BentoDisplay weatherData={weatherData} airData={airData} />
       ) : (
         <p>Chargement de la météo...</p>
       )}
