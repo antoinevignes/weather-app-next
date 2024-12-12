@@ -20,8 +20,8 @@ export const getWeather = async (latitude: number, longitude: number) => {
   const responses = await fetchWeatherApi(url, params);
 
   // Helper function to form time ranges
-  const range = (start: number, stop: number, step: number) =>
-    Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
+  // const range = (start: number, stop: number, step: number) =>
+  //   Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
 
   // Process first location. Add a for-loop for multiple locations or weather models
   const response = responses[0];
