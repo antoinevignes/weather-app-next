@@ -25,3 +25,8 @@ export type AirData = {
     europeanAqi: number;
   };
 };
+
+export type CityData = {
+  city: string;
+  countryCode: string;
+};

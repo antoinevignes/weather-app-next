@@ -1,10 +1,18 @@
-import { WeatherData } from "@/app/types/location";
+import { CityData, WeatherData } from "@/app/types/location";
 import { getWeatherIcon } from "@/lib/getWeatherIcon";
 
-export function CurrentForecast({ weatherData }: { weatherData: WeatherData }) {
+export function CurrentForecast({
+  weatherData,
+  city,
+}: {
+  weatherData: WeatherData;
+  city: CityData;
+}) {
   return (
     <div>
-      <h1 className="text-3xl font-bold text-center mb-4">Toulouse</h1>
+      <h1 className="text-3xl font-bold text-center mb-4">
+        {city.city}, {city.countryCode}
+      </h1>
 
       <div className="flex items-center justify-center mb-6">
         {getWeatherIcon(
