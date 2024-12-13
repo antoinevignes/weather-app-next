@@ -7,7 +7,7 @@ export function getAirQuality(aqi: number) {
     case aqi < 25:
       return "Moyen";
     case aqi < 50:
-      return "Mauvais";
+      return "Médiocre";
     case aqi < 75:
       return "Très mauvais";
     case aqi < 800:

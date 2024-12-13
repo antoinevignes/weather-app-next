@@ -11,10 +11,16 @@ export function DailyForecast({ weatherData }: { weatherData: WeatherData }) {
         const weatherCode = weatherData.daily.weatherCode[index];
 
         return (
-          <div key={day} className="text-center">
+          <div
+            key={day}
+            className="text-center border-2 rounded-md border-transparent hover:border-neutral-950 transition duration-200 cursor-pointer"
+          >
             <p className="font-semibold">{formattedDate}</p>
             {getWeatherIcon(weatherCode, "w-8 h-8 mx-auto my-2")}
-            <p>{Math.round(weatherData.daily.temperature2mMax[index])}°C</p>
+            <p>
+              {Math.round(weatherData.daily.temperature2mMin[index])}°C/
+              {Math.round(weatherData.daily.temperature2mMax[index])}°C
+            </p>
           </div>
         );
       })}

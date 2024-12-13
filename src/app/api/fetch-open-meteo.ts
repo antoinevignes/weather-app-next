@@ -12,7 +12,12 @@ export const getWeather = async (latitude: number, longitude: number) => {
       "surface_pressure",
       "wind_speed_10m",
     ],
-    daily: ["weather_code", "temperature_2m_max"],
+    daily: [
+      "weather_code",
+      "temperature_2m_max",
+      "temperature_2m_min",
+      "uv_index_max",
+    ],
     timezone: "Europe/London",
     forecast_days: 4,
   };
@@ -55,17 +60,21 @@ export const getWeather = async (latitude: number, longitude: number) => {
       ).map((t) => new Date((t + utcOffsetSeconds) * 1000)),
       weatherCode: daily.variables(0)!.valuesArray()!,
       temperature2mMax: daily.variables(1)!.valuesArray()!,
+      temperature2mMin: daily.variables(2)!.valuesArray()!,
+      uvIndexMax: daily.variables(3)!.valuesArray()!,
     },
   };
 
   // `weatherData` now contains a simple structure with arrays for datetime and weather data
-  // for (let i = 0; i < weatherData.daily.time.length; i++) {
-  //   console.log(
-  //     weatherData.daily.time[i].toISOString(),
-  //     weatherData.daily.weatherCode[i],
-  //     weatherData.daily.temperature2mMax[i]
-  //   );
-  // }
+  for (let i = 0; i < weatherData.daily.time.length; i++) {
+    console.log(
+      weatherData.daily.time[i].toISOString(),
+      weatherData.daily.weatherCode[i],
+      weatherData.daily.temperature2mMax[i],
+      weatherData.daily.temperature2mMin[i],
+      weatherData.daily.uvIndexMax[i]
+    );
+  }
 
   console.log(weatherData);
 

@@ -17,6 +17,8 @@ export type WeatherData = {
     time: Date[];
     weatherCode: number[];
     temperature2mMax: Float32Array;
+    temperature2mMin: Float32Array;
+    uvIndexMax: Float32Array;
   };
 };
 
