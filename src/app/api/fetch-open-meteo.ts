@@ -8,11 +8,17 @@ export const getWeather = async (latitude: number, longitude: number) => {
       "temperature_2m",
       "relative_humidity_2m",
       "apparent_temperature",
+      "precipitation",
       "weather_code",
       "surface_pressure",
       "wind_speed_10m",
     ],
-    daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
+    daily: [
+      "weather_code",
+      "temperature_2m_max",
+      "temperature_2m_min",
+      "uv_index_max",
+    ],
     timezone: "Europe/London",
   };
   const url = "https://api.open-meteo.com/v1/forecast";
@@ -42,9 +48,10 @@ export const getWeather = async (latitude: number, longitude: number) => {
       temperature2m: current.variables(0)!.value(),
       relativeHumidity2m: current.variables(1)!.value(),
       apparentTemperature: current.variables(2)!.value(),
-      weatherCode: current.variables(3)!.value(),
-      surfacePressure: current.variables(4)!.value(),
-      windSpeed10m: current.variables(5)!.value(),
+      precipitation: current.variables(3)!.value(),
+      weatherCode: current.variables(4)!.value(),
+      surfacePressure: current.variables(5)!.value(),
+      windSpeed10m: current.variables(6)!.value(),
     },
     daily: {
       time: range(
@@ -55,6 +62,7 @@ export const getWeather = async (latitude: number, longitude: number) => {
       weatherCode: daily.variables(0)!.valuesArray()!,
       temperature2mMax: daily.variables(1)!.valuesArray()!,
       temperature2mMin: daily.variables(2)!.valuesArray()!,
+      uvIndexMax: daily.variables(3)!.valuesArray()!,
     },
   };
 
@@ -64,7 +72,8 @@ export const getWeather = async (latitude: number, longitude: number) => {
   //     weatherData.daily.time[i].toISOString(),
   //     weatherData.daily.weatherCode[i],
   //     weatherData.daily.temperature2mMax[i],
-  //     weatherData.daily.temperature2mMin[i]
+  //     weatherData.daily.temperature2mMin[i],
+  //     weatherData.daily.uvIndexMax[i]
   //   );
   // }
 

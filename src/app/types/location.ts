@@ -12,6 +12,7 @@ export type WeatherData = {
     weatherCode: number;
     surfacePressure: number;
     windSpeed10m: number;
+    precipitation: number;
   };
   daily: {
     time: Date[];

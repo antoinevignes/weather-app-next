@@ -4,8 +4,8 @@ import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
 export function DailyForecast({ weatherData }: { weatherData: WeatherData }) {
   return (
-    <ScrollArea className="ml-4">
-      <div className="flex gap-14 mb-6">
+    <ScrollArea className="ml-4 mb-4">
+      <div className="flex gap-6 mb-6">
         {weatherData.daily.time.map((day: string, index: number) => {
           const formattedDate = new Date(day).toLocaleDateString("fr-FR", {
             weekday: "short",
@@ -15,7 +15,7 @@ export function DailyForecast({ weatherData }: { weatherData: WeatherData }) {
           return (
             <div
               key={day}
-              className="text-center border-2 rounded-md border-transparent hover:border-neutral-950 transition duration-200 cursor-pointer"
+              className="text-center border-2 rounded-md border-transparent hover:border-neutral-950 transition duration-200 cursor-pointer px-3"
             >
               <p className="font-semibold">{formattedDate}</p>
               {getWeatherIcon(weatherCode, "w-8 h-8 mx-auto my-2")}
