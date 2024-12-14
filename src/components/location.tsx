@@ -17,9 +17,9 @@ export default function Location() {
   const { weatherData, airData, city, sunData } = GetAllData();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-400 to-blue-600 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-[#e6e9ef] to-[#dce0e8] flex items-center justify-center p-4 dark:from-[#181825] dark:to-[#11111b]">
       {weatherData && city && airData && sunData ? (
-        <div className="bg-white rounded-lg shadow-xl p-6 max-w-lg w-full">
+        <div className="bg-[#eff1f5] dark:bg-[#1e1e2e] rounded-lg shadow-xl p-6 max-w-lg w-full">
           <CurrentForecast weatherData={weatherData} city={city} />
 
           <DailyForecast weatherData={weatherData} />

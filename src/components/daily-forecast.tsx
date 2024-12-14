@@ -15,7 +15,7 @@ export function DailyForecast({ weatherData }: { weatherData: WeatherData }) {
           return (
             <div
               key={day}
-              className="text-center border-2 rounded-md border-transparent hover:border-neutral-950 transition duration-200 cursor-pointer px-3"
+              className="text-center border-2 rounded-md border-transparent hover:border-[#4c4f69] dark:hover:border-[#cdd6f4] transition duration-200 cursor-pointer px-3"
             >
               <p className="font-semibold">{formattedDate}</p>
               {getWeatherIcon(weatherCode, "w-8 h-8 mx-auto my-2")}
