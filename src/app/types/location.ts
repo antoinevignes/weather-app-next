@@ -32,3 +32,10 @@ export type CityData = {
   city: string;
   countryCode: string;
 };
+
+export type SunData = {
+  results: {
+    dawn: string;
+    dusk: string;
+  };
+};

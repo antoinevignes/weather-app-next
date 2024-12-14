@@ -1,4 +1,4 @@
-export function getUvIndex(uvIndex) {
+export function getUvIndex(uvIndex: number) {
   switch (true) {
     case uvIndex < 2:
       return "(Bas)";

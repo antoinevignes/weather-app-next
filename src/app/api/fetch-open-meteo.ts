@@ -12,14 +12,8 @@ export const getWeather = async (latitude: number, longitude: number) => {
       "surface_pressure",
       "wind_speed_10m",
     ],
-    daily: [
-      "weather_code",
-      "temperature_2m_max",
-      "temperature_2m_min",
-      "uv_index_max",
-    ],
+    daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
     timezone: "Europe/London",
-    forecast_days: 4,
   };
   const url = "https://api.open-meteo.com/v1/forecast";
   const responses = await fetchWeatherApi(url, params);
@@ -61,20 +55,18 @@ export const getWeather = async (latitude: number, longitude: number) => {
       weatherCode: daily.variables(0)!.valuesArray()!,
       temperature2mMax: daily.variables(1)!.valuesArray()!,
       temperature2mMin: daily.variables(2)!.valuesArray()!,
-      uvIndexMax: daily.variables(3)!.valuesArray()!,
     },
   };
 
   // `weatherData` now contains a simple structure with arrays for datetime and weather data
-  for (let i = 0; i < weatherData.daily.time.length; i++) {
-    console.log(
-      weatherData.daily.time[i].toISOString(),
-      weatherData.daily.weatherCode[i],
-      weatherData.daily.temperature2mMax[i],
-      weatherData.daily.temperature2mMin[i],
-      weatherData.daily.uvIndexMax[i]
-    );
-  }
+  // for (let i = 0; i < weatherData.daily.time.length; i++) {
+  //   console.log(
+  //     weatherData.daily.time[i].toISOString(),
+  //     weatherData.daily.weatherCode[i],
+  //     weatherData.daily.temperature2mMax[i],
+  //     weatherData.daily.temperature2mMin[i]
+  //   );
+  // }
 
   console.log(weatherData);
 
