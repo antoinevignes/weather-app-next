@@ -51,7 +51,7 @@ export default function Location() {
           </Accordion>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-xl p-6 max-w-lg w-full">
+        <div className="bg-[#eff1f5] dark:bg-[#1e1e2e] rounded-lg shadow-xl p-6 max-w-lg w-full">
           <p className="m-10 text-center">Chargement...</p>
         </div>
       )}

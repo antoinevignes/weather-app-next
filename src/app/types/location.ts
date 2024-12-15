@@ -16,7 +16,7 @@ export type WeatherData = {
   };
   daily: {
     time: Date[];
-    weatherCode: number[];
+    weatherCode: Float32Array;
     temperature2mMax: Float32Array;
     temperature2mMin: Float32Array;
     uvIndexMax: Float32Array;

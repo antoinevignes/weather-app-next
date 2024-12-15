@@ -6,7 +6,7 @@ export function DailyForecast({ weatherData }: { weatherData: WeatherData }) {
   return (
     <ScrollArea className="ml-4 mb-4">
       <div className="flex gap-6 mb-6">
-        {weatherData.daily.time.map((day: string, index: number) => {
+        {weatherData.daily.time.map((day: Date, index: number) => {
           const formattedDate = new Date(day).toLocaleDateString("fr-FR", {
             weekday: "short",
           });
@@ -14,7 +14,7 @@ export function DailyForecast({ weatherData }: { weatherData: WeatherData }) {
 
           return (
             <div
-              key={day}
+              key={day.toISOString()}
               className="text-center border-2 rounded-md border-transparent hover:border-[#4c4f69] dark:hover:border-[#cdd6f4] transition duration-200 cursor-pointer px-3"
             >
               <p className="font-semibold">{formattedDate}</p>

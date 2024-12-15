@@ -8,7 +8,6 @@ export function GetGeolocation() {
     latitude: null,
     longitude: null,
   });
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -18,11 +17,11 @@ export function GetGeolocation() {
           setLocation({ latitude, longitude });
         },
         () => {
-          setError("Erreur lors de la récupération de la position");
+          console.error("Erreur lors de la récupération de la position");
         }
       );
     } else {
-      setError("Geolocation n'est pas compatible avec votre navigateur");
+      console.error("Geolocation n'est pas compatible avec votre navigateur");
     }
   }, []);
 
