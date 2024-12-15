@@ -11,15 +11,10 @@ export function GetGeolocation() {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setLocation({ latitude, longitude });
-        },
-        () => {
-          console.error("Erreur lors de la récupération de la position");
-        }
-      );
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setLocation({ latitude, longitude });
+      });
     } else {
       console.error("Geolocation n'est pas compatible avec votre navigateur");
     }

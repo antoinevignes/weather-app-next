@@ -12,48 +12,70 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
+import { GetGeolocation } from "@/lib/getGeolocation";
+import { useEffect, useState } from "react";
 
 export default function Location() {
   const { weatherData, airData, city, sunData } = GetAllData();
+  const { location } = GetGeolocation();
+  const [isLocationReady, setIsLocationReady] = useState(false);
+
+  useEffect(() => {
+    if (location.latitude !== null && location.longitude !== null) {
+      setIsLocationReady(true);
+    }
+  }, [location]);
 
   return (
-    <div className="min-h-screen  flex items-center justify-center p-4">
-      {weatherData && city && airData && sunData ? (
-        <div className="bg-[#eff1f5] dark:bg-[#1e1e2e] rounded-lg shadow-xl p-6 max-w-lg w-full mt-14 md:mt-0">
-          <CurrentForecast weatherData={weatherData} city={city} />
+    <div>
+      {isLocationReady === true ? (
+        <div className="min-h-screen flex items-center justify-center p-4">
+          {weatherData && city && airData && sunData ? (
+            <div className="bg-[#eff1f5] dark:bg-[#1e1e2e] rounded-lg shadow-xl p-6 max-w-lg w-full mt-14 md:mt-0">
+              <CurrentForecast weatherData={weatherData} city={city} />
 
-          <DailyForecast weatherData={weatherData} />
+              <DailyForecast weatherData={weatherData} />
 
-          <div className="flex justify-between text-sm">
-            <div className="flex items-center">
-              <Droplets className="w-4 h-4 mr-1" />
-              <span>Humidité: {weatherData?.current.relativeHumidity2m}%</span>
+              <div className="flex justify-between text-sm">
+                <div className="flex items-center">
+                  <Droplets className="w-4 h-4 mr-1" />
+                  <span>
+                    Humidité: {weatherData?.current.relativeHumidity2m}%
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <Wind className="w-4 h-4 mr-1" />
+                  <span>
+                    Vent: {Math.round(weatherData?.current.windSpeed10m ?? 0)}
+                    km/h
+                  </span>
+                </div>
+              </div>
+
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="text-lg font-semibold mt-3">
+                    Informations supplémentaires
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <SuppInfo weatherData={weatherData} airData={airData} />
+
+                    <SunriseSunset sunData={sunData} />
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </div>
-            <div className="flex items-center">
-              <Wind className="w-4 h-4 mr-1" />
-              <span>
-                Vent: {Math.round(weatherData?.current.windSpeed10m ?? 0)}km/h
-              </span>
+          ) : (
+            <div className="bg-[#eff1f5] dark:bg-[#1e1e2e] rounded-lg shadow-xl p-6 max-w-lg w-full">
+              <p className="m-10 text-center">Chargement...</p>
             </div>
-          </div>
-
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="text-lg font-semibold mt-3">
-                Informations supplémentaires
-              </AccordionTrigger>
-              <AccordionContent>
-                <SuppInfo weatherData={weatherData} airData={airData} />
-
-                <SunriseSunset sunData={sunData} />
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          )}
         </div>
       ) : (
-        <div className="bg-[#eff1f5] dark:bg-[#1e1e2e] rounded-lg shadow-xl p-6 max-w-lg w-full">
-          <p className="m-10 text-center">Chargement...</p>
-        </div>
+        <p className="min-h-screen flex items-center justify-center">
+          Vous n&apos;avez pas accepté la géolocalisation. Veuillez accepter la
+          géolocalisation pour accéder au service.
+        </p>
       )}
     </div>
   );
